@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { BrowserRouter } from 'react-router-dom';
+import { DatePickerProvider } from '@bcad1591/react-date-picker';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+<BrowserRouter>
+<DatePickerProvider>
     <App />
-  </React.StrictMode>
+    </DatePickerProvider>
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

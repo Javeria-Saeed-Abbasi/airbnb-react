@@ -1,0 +1,83 @@
+.search1 {
+  background-color: #fff;
+  width: 35%;
+  height: 50px;
+  border-radius: 30px;
+  box-shadow: 2px 1px 6px 1px #8080809e;
+}
+.tabs1 .btn-group {
+}
+.tabs1 .btn-group label {
+  color: #222 !important;
+  font-weight: 600;
+  font-size: 14px;
+}
+.tabs1 .btn-group .btn,
+.btn-group .btn-check:checked {
+  background-color: transparent !important;
+  border: 0;
+}
+.tabs1 .border-right {
+  border-right: 1px solid #a7a3a391;
+  height: 20px;
+  padding-top: 2rem;
+}
+.tabs1 .btn-group .toggle3 {
+  color: #26232391 !important;
+}
+.tabs1 .btn-group .buttonsearch button {
+  background-color: #ff385c !important;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+}
+.tabs1 .btn-group .buttonsearch button svg {
+  margin: -11px 0px -2px -3px;
+  font-size: 13px;
+}
+.sidebuttons .btn-group .btn {
+  background-color: transparent !important;
+  color: rgb(27, 26, 26);
+  border: 0;
+}
+.sidebuttons .btn-group .btn.globe {
+  color: rgb(68, 67, 67);
+}
+.sidebuttons .btn-group .user-btn {
+  border-radius: 50px;
+  border: 1px solid rgba(94, 93, 93, 0.418);
+}
+.sidebuttons .btn-group .toggleBtn {
+  color: rgb(68, 67, 67);
+  font-size: 1.2rem;
+}
+.sidebuttons .btn-group .userBtn {
+  color: rgb(153, 148, 148);
+  font-size: 1.8rem;
+  margin-left: 1rem;
+}
+@media (max-width: 820px) {
+    .search1 {
+      width: 100%;
+    }
+    .sidebuttons {
+      margin: 20px 30px;
+    }
+  }
+@media (max-width: 768px) {
+    .search1 {
+      width: 100%;
+    }
+    .sidebuttons {
+      margin: 20px 30px;
+    }
+  }
+  
+@media (max-width: 414px) {
+  .search1 {
+    width: 100%;
+  }
+  .sidebuttons {
+    margin: 20px 30px;
+  }
+}
