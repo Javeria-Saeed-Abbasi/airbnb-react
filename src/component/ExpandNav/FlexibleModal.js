@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./ExpandNavStyles.css";
+import Month from "./Month";
 
 const FlexibleModal = () => {
     const [checked, setChecked] = useState(false);
@@ -24,17 +25,18 @@ const FlexibleModal = () => {
       { name: 'Weekend', value: '1' },
       { name: 'Week', value: '2' },
       { name: 'Month', value: '3' },
-    ];
+    ];  
   return (
     <div>
       <div id="flexible" className="">
         <div className="flexi-content ">
-          <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center">
             <span className="h5 py-3">Stay for a week</span>
           </div>
           <div className="flexi-btn d-flex justify-content-center align-items-center">
           <ButtonGroup className="mb-2">
         {radios.map((radio, idx) => (
+           
           <ToggleButton
             key={idx}
             id={`radio-${idx}`}
@@ -46,9 +48,12 @@ const FlexibleModal = () => {
             onChange={(e) => setRadioValue(e.currentTarget.value)}
             
           >
+              
             {radio.name}
+
           </ToggleButton>
         ))}
+   
       </ButtonGroup>
             {/* <ButtonGroup
               aria-label="Basic example mx-auto"
@@ -67,6 +72,9 @@ const FlexibleModal = () => {
           </div>
           <div className="d-flex justify-content-center align-items-center pt-3">
             <span className="h6">Go anytime</span>
+          </div>
+          <div>
+            <Month/>
           </div>
         </div>
       </div>
