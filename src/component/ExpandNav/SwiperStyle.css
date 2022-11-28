@@ -98,3 +98,17 @@ top: 55%;
 .swiper-button-next:after, .swiper-button-prev:after{
   font-size:unset!important;
 }
+
+/* IMAGE STYLES */
+[type=radio] + card {
+  cursor: pointer;
+  width: 20%;
+  height: 20%;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + card {
+  outline: 2px solid #f00;
+  width: 20%;
+  height: 20%;
+}

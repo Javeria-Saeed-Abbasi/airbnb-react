@@ -271,7 +271,7 @@ font-size: inherit;
 }
 
 .toggle-buttons1 {
-  left: 68%;
+  left: 58%;
   right: 50%;
   top: 18px;
   z-index: 1;
@@ -328,7 +328,7 @@ font-size: inherit;
   height: 500px;
 }
 .flexi-content {
-  transform: translate(0, 50%);
+  transform: translate(0, 30%);
 }
 .flexi-btn .btn-check+ .btn {
   text-decoration: none;
