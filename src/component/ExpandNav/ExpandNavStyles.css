@@ -358,6 +358,9 @@ font-size: inherit;
 outline: none;
 box-shadow: none;
 }
+.modal-5 #modal3-content{
+  width: 885px!important;
+}
 @media (max-width: 820px) {
   .expand-nav .search1 {
     width: 100%;

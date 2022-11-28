@@ -7,8 +7,8 @@ const Home = () => {
   return (      
 <>
 <Header/>
-{/* <Navbar1/> */}
-<Navbar2/>
+<Navbar1/>
+{/* <Navbar2/> */}
 <div className='home'>
     </div>
 </>

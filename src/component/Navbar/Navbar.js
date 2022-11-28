@@ -12,15 +12,17 @@ import { Container } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { FaGlobe } from "react-icons/fa";
-import {GiHamburgerMenu} from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
 import "./Navbar.css";
 
 const Navbar1 = () => {
+  const navigate = useNavigate();
+
   const [value, setValue] = useState([1, 3]);
   const handleChange = (val) => setValue(val);
   return (
@@ -77,13 +79,14 @@ const Navbar1 = () => {
                   <ToggleButtonGroup
                     type="checkbox"
                     value={value}
-                    onChange={handleChange}
+                     onChange={handleChange} 
                   >
-                    <ToggleButton id="tbg-btn-1" value={1} className="">
+             <ToggleButton id="tbg-btn-1" value={1} className="" as={Link} to="/src/component/Navbar/Navbar.js" onClick={() => navigate("/src/component/ExpandNav/ExpandNav.js")}>
                       Any where
                     </ToggleButton>
+
                     <div className="border-right"></div>
-                    <ToggleButton id="tbg-btn-2" value={2} className="">
+                    <ToggleButton id="tbg-btn-2" value={2} className=""as={Link} to="/src/component/Navbar/Navbar.js" onClick={() => navigate("/src/component/ExpandNav/ExpandNav.js")}>
                       Any week
                     </ToggleButton>
                     <div className="border-right"></div>
@@ -128,11 +131,13 @@ const Navbar1 = () => {
               <div className="d-flex align-items-center sidebuttons">
                 <ButtonGroup className="me-2" aria-label="Second group">
                   <Button className="">Airbnb your home</Button>
-                   <Button className="globe"><FaGlobe/></Button>
-                   <Button className="user-btn">
-                    <GiHamburgerMenu className="toggleBtn"/>
-                    <FaUserCircle className="userBtn"/>
-                    </Button>
+                  <Button className="globe">
+                    <FaGlobe />
+                  </Button>
+                  <Button className="user-btn">
+                    <GiHamburgerMenu className="toggleBtn" />
+                    <FaUserCircle className="userBtn" />
+                  </Button>
                 </ButtonGroup>
               </div>
             </Offcanvas.Body>

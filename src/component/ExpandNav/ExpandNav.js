@@ -39,6 +39,7 @@ import DatePickerComp from "./DatePicker";
 import FlexibleModal from "./FlexibleModal";
 
 const Navbar2 = () => {
+  const [showSearch,setShowSearch]=useState(false)
   const [modalShow, setModalShow] = useState(false);
   const [modal2Show, setModal2Show] = useState(false);
   const [modal3Show, setModal3Show] = useState(false);
@@ -51,6 +52,7 @@ const [showDatePicker, setShowDatePicker] = useState(false);
 
   const resetFunc = useDatePickReset();
   const [counter, setCounter] = useState(0);
+  const [dateValue, setDateValue] = useState('');
   //increase counter
   const increase = () => {
     setCounter(counter + 1);
@@ -71,6 +73,11 @@ const [showDatePicker, setShowDatePicker] = useState(false);
   // const datepickerhandle = () => {
   //   setShowDatePicker=(true)
   // }
+  const handleChangeDate = () =>{
+    setDateValue({value:pickedDates.firstPickedDate?.toString().substring(4, 10) +
+        " - " +
+      pickedDates.secondPickedDate?.toString().substring(4, 10)})
+  }
   return (
     <div className="expand-nav">
       <Navbar
@@ -128,10 +135,10 @@ const [showDatePicker, setShowDatePicker] = useState(false);
                     value={value}
                     onChange={handleChange}
                   >
-                    <ToggleButton id="tbg-btn-1" value={1} className="">
+                    <ToggleButton id="tbg-btn-1" value={1} className="active" onClick={()=>setShowSearch(false)}>
                       Stays
                     </ToggleButton>
-                    <ToggleButton id="tbg-btn-2" value={2} className="">
+                    <ToggleButton id="tbg-btn-2" value={2} className="" onClick={()=>setShowSearch(true)}>
                       Experiences
                     </ToggleButton>
                     <ToggleButton id="tbg-btn-3" value={3} className="toggle3">
@@ -156,183 +163,195 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           </Navbar.Offcanvas>
         </>
       </Navbar>
-      {/* Expand Search Bar 1  */}
-      <div className="pb-3">
-        <div className="d-flex align-content-stretch mx-auto align-items-center search2">
-          {/* Input1 */}
-          <div
-            className="desti d-flex flex-column px-4 input1 where text-start"
-            onClick={() => setModalShow(true)}
-          >
-            <Form.Label htmlFor="basic-url">Where</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Search destinations"
-                aria-label="Search destinations"
-                aria-describedby="basic-addon2"
-              />
-            </InputGroup>
-          </div>
-          <div className="border-right"></div>
-          {/* Input2 */}
-          <div
-            className="desti d-flex flex-column justify-content-center align-items-start place-center px-3 input1 where"
-            onClick={() => setModal2Show(true)}
-          >
-            <Form.Label htmlFor="basic-url">Date</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Add dates"
-                aria-label="Add dates"
-                aria-describedby="basic-addon2"
-                value={
-                  pickedDates.firstPickedDate?.toString().substring(4, 10) +
-                  " - " +
-                  pickedDates.secondPickedDate?.toString().substring(4, 10)
-                }
-                className="value-style text-start"
-              />
-            </InputGroup>
-          </div>
-          {/* <div
-            className="desti d-flex flex-column px-4 input1 where"
-            onClick={() => setModal2Show(true)}
-          >
-            <Form.Label htmlFor="basic-url">Date</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Add dates"
-                aria-label="Add dates"
-                aria-describedby="basic-addon2"
-                value={pickedDates.firstPickedDate?.toString().substring(4, 10) + " - " + pickedDates.secondPickedDate?.toString().substring(4, 10)}
-                className="value-style "
-              />
-            </InputGroup>
-          </div> */}
 
-          <div className="border-right"></div>
-          {/* Input3 */}
-          <div
-            className="desti d-flex flex-row align-items-center px-4 input1 where who"
-            onClick={() => setModal3Show(true)}
-          >
-            <div>
-              <Form.Label htmlFor="basic-url" className="text-start">
-                Who
-              </Form.Label>
-              <InputGroup className="mb-2">
-                <Form.Control
-                  type="text"
-                  placeholder="Add guests"
-                  aria-label="Add guests"
-                  aria-describedby="basic-addon2"
-                />
-              </InputGroup>
-            </div>
+      { showSearch ?      
+    
+<div className="pb-3" id="search-bar-1">
+  <div className="d-flex align-content-stretch mx-auto align-items-center search2">
+    {/* Input1 */}
+    <div
+      className="desti d-flex flex-column px-4 input1 where text-start"
+      onClick={() => setModalShow(true)}
+    >
+      <Form.Label htmlFor="basic-url">Where</Form.Label>
+      <InputGroup className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Search destinations"
+          aria-label="Search destinations"
+          aria-describedby="basic-addon2"
+        />
+      </InputGroup>
+    </div>
+    <div className="border-right"></div>
+    {/* Input2 */}
+    <div
+      className="desti d-flex flex-column justify-content-center align-items-start place-center px-3 input1 where"
+      onClick={() => setModal2Show(true)}
+    >
+      <Form.Label htmlFor="basic-url">Date</Form.Label>
+      <InputGroup className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Add dates"
+          aria-label="Add dates"
+          aria-describedby="basic-addon2"
+          name=""
+       value={dateValue}
+       onChange={handleChangeDate}
+          // value={
+          //   pickedDates.firstPickedDate?.toString().substring(4, 10) +
+          //   " - " +
+          //   pickedDates.secondPickedDate?.toString().substring(4, 10)
+          // }
+          className="value-style text-start"
+        />
+      </InputGroup>
+    </div>
+    {/* <div
+      className="desti d-flex flex-column px-4 input1 where"
+      onClick={() => setModal2Show(true)}
+    >
+      <Form.Label htmlFor="basic-url">Date</Form.Label>
+      <InputGroup className="mb-3">
+        <Form.Control
+          type="text"
+          placeholder="Add dates"
+          aria-label="Add dates"
+          aria-describedby="basic-addon2"
+          value={pickedDates.firstPickedDate?.toString().substring(4, 10) + " - " + pickedDates.secondPickedDate?.toString().substring(4, 10)}
+          className="value-style "
+        />
+      </InputGroup>
+    </div> */}
 
-            <div className="mb-1">
-              <Button variant="" className="searchBtn">
-                <FaSearch /> <b>Search</b>
-              </Button>
-            </div>
-            {/* <div className="mb-1">
-        <Button variant="" className="searchBtn2"><FaSearch/></Button>
-        </div> */}
-          </div>
-        </div>
+    <div className="border-right"></div>
+    {/* Input3 */}
+    <div
+      className="desti d-flex flex-row align-items-center px-4 input1 where who"
+      onClick={() => setModal3Show(true)}
+    >
+      <div>
+        <Form.Label htmlFor="basic-url" className="text-start">
+          Who
+        </Form.Label>
+        <InputGroup className="mb-2">
+          <Form.Control
+            type="text"
+            placeholder="Add guests"
+            aria-label="Add guests"
+            aria-describedby="basic-addon2"
+          />
+        </InputGroup>
       </div>
-      {/* Expand Search Bar 2  */}
-      <div className="pb-3">
-        <div className="d-flex align-content-stretch mx-auto align-items-center search2">
-          {/* Input1 */}
-          <div
-            className="desti d-flex flex-column px-4 input1 where text-start"
-            onClick={() => setModalShow(true)}
-          >
-            <Form.Label htmlFor="basic-url">Where</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Search destinations"
-                aria-label="Search destinations"
-                aria-describedby="basic-addon2"
-              />
-            </InputGroup>
-          </div>
-          <div className="border-right"></div>
-          {/* Input2 */}
-          <div
-            className="desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"
-            onClick={() => setModal5Show(true)}
-          >
-            <Form.Label htmlFor="basic-url">Check in</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Add dates"
-                aria-label="Add dates"
-                aria-describedby="basic-addon2"
-                value={pickedDates.firstPickedDate?.toString().substring(4, 10)}
-                className="value-style"
-              />
-            </InputGroup>
-          </div>
 
-          <div className="border-right"></div>
-          {/* Input3 */}
-          <div
-            className="desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"
-            onClick={() => setModal5Show(true)}
-          >
-            <Form.Label htmlFor="basic-url">Check out</Form.Label>
-            <InputGroup className="mb-3">
-              <Form.Control
-                type="text"
-                placeholder="Add dates"
-                aria-label="Add dates"
-                aria-describedby="basic-addon2"
-                value={pickedDates.secondPickedDate
-                  ?.toString()
-                  .substring(4, 10)}
-                className="value-style"
-              />
-            </InputGroup>
-          </div>
-
-          <div className="border-right"></div>
-          {/* Input4 */}
-          <div
-            className="desti d-flex flex-row align-items-center px-4 input1 where who"
-            onClick={() => setModal4Show(true)}
-          >
-            <div>
-              <Form.Label htmlFor="basic-url" className="text-start">
-                Who
-              </Form.Label>
-              <InputGroup className="mb-2">
-                <Form.Control
-                  type="text"
-                  placeholder="Add guests"
-                  aria-label="Add guests"
-                  aria-describedby="basic-addon2"
-                />
-              </InputGroup>
-            </div>
-
-            <div className="mb-1">
-              <Button variant="" className="searchBtn">
-                <FaSearch /> <b>Search</b>
-              </Button>
-            </div>
-            {/* <div className="mb-1">
-        <Button variant="" className="searchBtn2"><FaSearch/></Button>
-        </div> */}
-          </div>
-        </div>
+      <div className="mb-1">
+        <Button variant="" className="searchBtn">
+          <FaSearch /> <b>Search</b>
+        </Button>
       </div>
+      {/* <div className="mb-1">
+  <Button variant="" className="searchBtn2"><FaSearch/></Button>
+  </div> */}
+    </div>
+  </div>
+</div>
+   : 
+   <div className="pb-3 active" id="search-bar-2">
+ <div className="d-flex align-content-stretch mx-auto align-items-center search2">
+   {/* Input1 */}
+   <div
+     className="desti d-flex flex-column px-4 input1 where text-start"
+     onClick={() => setModalShow(true)}
+   >
+     <Form.Label htmlFor="basic-url">Where</Form.Label>
+     <InputGroup className="mb-3">
+       <Form.Control
+         type="text"
+         placeholder="Search destinations"
+         aria-label="Search destinations"
+         aria-describedby="basic-addon2"
+       />
+     </InputGroup>
+   </div>
+   <div className="border-right"></div>
+   {/* Input2 */}
+   <div
+     className="desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"
+     onClick={() => setModal5Show(true)}
+   >
+     <Form.Label htmlFor="basic-url">Check in</Form.Label>
+     <InputGroup className="mb-3">
+       <Form.Control
+         type="text"
+         placeholder="Add dates"
+         aria-label="Add dates"
+         aria-describedby="basic-addon2"
+         value={pickedDates.firstPickedDate?.toString().substring(4, 10)}
+         className="value-style"
+       />
+     </InputGroup>
+   </div>
+
+   <div className="border-right"></div>
+   {/* Input3 */}
+   <div
+     className="desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"
+     onClick={() => setModal5Show(true)}
+   >
+     <Form.Label htmlFor="basic-url">Check out</Form.Label>
+     <InputGroup className="mb-3">
+       <Form.Control
+         type="text"
+         placeholder="Add dates"
+         aria-label="Add dates"
+         aria-describedby="basic-addon2"
+         value={pickedDates.secondPickedDate
+           ?.toString()
+           .substring(4, 10)}
+         className="value-style"
+       />
+     </InputGroup>
+   </div>
+
+   <div className="border-right"></div>
+   {/* Input4 */}
+   <div
+     className="desti d-flex flex-row align-items-center px-4 input1 where who"
+     onClick={() => setModal4Show(true)}
+   >
+     <div>
+       <Form.Label htmlFor="basic-url" className="text-start">
+         Who
+       </Form.Label>
+       <InputGroup className="mb-2">
+         <Form.Control
+           type="text"
+           placeholder="Add guests"
+           aria-label="Add guests"
+           aria-describedby="basic-addon2"
+         />
+       </InputGroup>
+     </div>
+
+     <div className="mb-1">
+       <Button variant="" className="searchBtn">
+         <FaSearch /> <b>Search</b>
+       </Button>
+     </div>
+     {/* <div className="mb-1">
+ <Button variant="" className="searchBtn2"><FaSearch/></Button>
+ </div> */}
+   </div>
+ </div>
+</div>
+ }
+
+ 
+    
+     
+    
+    
       {/* Modal1 */}
       <div className="modal1">
         <Modal
@@ -748,7 +767,7 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           dialogClassName="modal-90w"
           aria-labelledby="example-custom-modal-styling-title"
         >
-          <div id="modal3-content">
+          <div id="modal3-content" className="modal5-content" style={{width:"885px"}}>
             <div>
             <div className="toggle-buttons1 position-absolute">
                 <ButtonGroup aria-label="Basic example mx-auto">
