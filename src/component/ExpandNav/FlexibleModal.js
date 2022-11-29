@@ -70,9 +70,7 @@ const FlexibleModal = () => {
               </Button>
             </ButtonGroup> */}
           </div>
-          <div className="d-flex justify-content-center align-items-center pt-3">
-            <span className="h6">Go anytime</span>
-          </div>
+       
           <div>
             <Month/>
           </div>

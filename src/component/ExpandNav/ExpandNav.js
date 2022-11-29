@@ -37,22 +37,25 @@ import {
 import "./ExpandNavStyles.css";
 import DatePickerComp from "./DatePicker";
 import FlexibleModal from "./FlexibleModal";
-
+import $ from "jquery";
 const Navbar2 = () => {
-  const [showSearch,setShowSearch]=useState(false)
-  const [modalShow, setModalShow] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [modalShow, setModalShow] = useState(true);
   const [modal2Show, setModal2Show] = useState(false);
   const [modal3Show, setModal3Show] = useState(false);
   const [modal4Show, setModal4Show] = useState(false);
   const [modal5Show, setModal5Show] = useState(false);
-const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [value, setValue] = useState([1, 3]);
+  const [region, setRegion] = useState("");
   const handleChange = (val) => setValue(val);
   const { pickedDates } = useDatePickGetter();
-
+  const [active, setActive] = useState("active1");
+  const [activeBtn, setActiveBtn] = useState("div1");
   const resetFunc = useDatePickReset();
   const [counter, setCounter] = useState(0);
-  const [dateValue, setDateValue] = useState('');
+  const [dateValue, setDateValue] = useState("");
+  
   //increase counter
   const increase = () => {
     setCounter(counter + 1);
@@ -73,11 +76,23 @@ const [showDatePicker, setShowDatePicker] = useState(false);
   // const datepickerhandle = () => {
   //   setShowDatePicker=(true)
   // }
-  const handleChangeDate = () =>{
-    setDateValue({value:pickedDates.firstPickedDate?.toString().substring(4, 10) +
+  const handleChangeDate = () => {
+    setDateValue({
+      value:
+        pickedDates.firstPickedDate?.toString().substring(4, 10) +
         " - " +
-      pickedDates.secondPickedDate?.toString().substring(4, 10)})
-  }
+        pickedDates.secondPickedDate?.toString().substring(4, 10),
+    });
+  };
+  const handleActive = (event) => {
+    setActive(event.target.id);
+    console.log(event.target.id);
+  };
+
+  const  handleActiveBtn = (e) => {
+    setActiveBtn(e.target.id);
+    console.log(e.target.id);
+  };
   return (
     <div className="expand-nav">
       <Navbar
@@ -130,21 +145,43 @@ const [showDatePicker, setShowDatePicker] = useState(false);
             <Offcanvas.Body className="">
               <div className="d-flex justify-content-center align-items-center mx-auto">
                 <div className="tabs2">
-                  <ToggleButtonGroup
-                    type="checkbox"
-                    value={value}
-                    onChange={handleChange}
-                  >
-                    <ToggleButton id="tbg-btn-1" value={1} className="active" onClick={()=>setShowSearch(false)}>
+                  <ButtonGroup className="mb-2">
+                    <Button
+                      key={1}
+                      className={active === "active1" ? "active" : undefined}
+                      id={"active1"}
+                      onClick={(e) => {
+                        setShowSearch(false);
+                        handleActive(e);
+                      }}
+                      variant="link"
+                    >
                       Stays
-                    </ToggleButton>
-                    <ToggleButton id="tbg-btn-2" value={2} className="" onClick={()=>setShowSearch(true)}>
+                    </Button>
+                    <Button
+                      key={2}
+                      className={active === "active2" ? "active" : undefined}
+                      id={"active2"}
+                      onClick={(e) => {
+                        setShowSearch(true);
+                        handleActive(e);
+                      }}
+                      variant="link"
+                    >
                       Experiences
-                    </ToggleButton>
-                    <ToggleButton id="tbg-btn-3" value={3} className="toggle3">
+                    </Button>
+                    <Button
+                      key={3}
+                      className={active === "active3" ? "active" : undefined}
+                      id={"active3"}
+                      variant="link"
+                      onClick={(e) => {
+                        handleActive(e);
+                      }}
+                    >
                       Online Experiences
-                    </ToggleButton>
-                  </ToggleButtonGroup>
+                    </Button>
+                  </ButtonGroup>
                 </div>
               </div>
               <div className="d-flex align-items-center sidebuttons justify-content-end">
@@ -164,51 +201,55 @@ const [showDatePicker, setShowDatePicker] = useState(false);
         </>
       </Navbar>
 
-      { showSearch ?      
-    
-<div className="pb-3" id="search-bar-1">
-  <div className="d-flex align-content-stretch mx-auto align-items-center search2">
-    {/* Input1 */}
-    <div
-      className="desti d-flex flex-column px-4 input1 where text-start"
-      onClick={() => setModalShow(true)}
-    >
-      <Form.Label htmlFor="basic-url">Where</Form.Label>
-      <InputGroup className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Search destinations"
-          aria-label="Search destinations"
-          aria-describedby="basic-addon2"
-        />
-      </InputGroup>
-    </div>
-    <div className="border-right"></div>
-    {/* Input2 */}
-    <div
-      className="desti d-flex flex-column justify-content-center align-items-start place-center px-3 input1 where"
-      onClick={() => setModal2Show(true)}
-    >
-      <Form.Label htmlFor="basic-url">Date</Form.Label>
-      <InputGroup className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Add dates"
-          aria-label="Add dates"
-          aria-describedby="basic-addon2"
-          name=""
-       value={dateValue}
-       onChange={handleChangeDate}
-          // value={
-          //   pickedDates.firstPickedDate?.toString().substring(4, 10) +
-          //   " - " +
-          //   pickedDates.secondPickedDate?.toString().substring(4, 10)
-          // }
-          className="value-style text-start"
-        />
-      </InputGroup>
-    </div>
-    {/* <div
+      {showSearch ? (
+        <div className="pb-3" id="search-bar-1">
+          <div className="d-flex align-content-stretch mx-auto align-items-center search2">
+            {/* Input1 */}
+            <div
+              className={activeBtn === "div5"? "active desti d-flex flex-column px-4 input1 where text-start": "desti d-flex flex-column px-4 input1 where text-start"}
+              onClick={() => 
+               { setModalShow(true)
+              setActiveBtn("div5");}}
+            >
+              <Form.Label htmlFor="basic-url">Where</Form.Label>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Search destinations"
+                  aria-label="Search destinations"
+                  aria-describedby="basic-addon2"
+                  value={region}
+                />
+              </InputGroup>
+            </div>
+            <div className="border-right"></div>
+            {/* Input2 */}
+            <div
+              className={activeBtn === "div6" ?" active desti d-flex flex-column justify-content-center align-items-start place-center px-3 input1 where" : "desti d-flex flex-column justify-content-center align-items-start place-center px-3 input1 where"}
+              onClick={() => {
+                setModal2Show(true);
+              setActiveBtn("div6")}}
+            >
+              <Form.Label htmlFor="basic-url">Date</Form.Label>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Add dates"
+                  aria-label="Add dates"
+                  aria-describedby="basic-addon2"
+                  name=""
+                  value={dateValue}
+                  onChange={handleChangeDate}
+                  // value={
+                  //   pickedDates.firstPickedDate?.toString().substring(4, 10) +
+                  //   " - " +
+                  //   pickedDates.secondPickedDate?.toString().substring(4, 10)
+                  // }
+                  className="value-style text-start"
+                />
+              </InputGroup>
+            </div>
+            {/* <div
       className="desti d-flex flex-column px-4 input1 where"
       onClick={() => setModal2Show(true)}
     >
@@ -225,133 +266,151 @@ const [showDatePicker, setShowDatePicker] = useState(false);
       </InputGroup>
     </div> */}
 
-    <div className="border-right"></div>
-    {/* Input3 */}
-    <div
-      className="desti d-flex flex-row align-items-center px-4 input1 where who"
-      onClick={() => setModal3Show(true)}
-    >
-      <div>
-        <Form.Label htmlFor="basic-url" className="text-start">
-          Who
-        </Form.Label>
-        <InputGroup className="mb-2">
-          <Form.Control
-            type="text"
-            placeholder="Add guests"
-            aria-label="Add guests"
-            aria-describedby="basic-addon2"
-          />
-        </InputGroup>
-      </div>
+            <div className="border-right"></div>
+            {/* Input3 */}
+            <div
+              className={activeBtn === "div7" ? "active desti d-flex flex-row align-items-center px-4 input1 where who":"desti d-flex flex-row align-items-center px-4 input1 where who"}
+              onClick={() =>{ setModal3Show(true);
+                setActiveBtn("div7");
+              }}
+            >
+              <div>
+                <Form.Label htmlFor="basic-url" className="text-start">
+                  Who
+                </Form.Label>
+                <InputGroup className="mb-2">
+                  <Form.Control
+                    type="text"
+                    placeholder="Add guests"
+                    aria-label="Add guests"
+                    aria-describedby="basic-addon2"
+                  />
+                </InputGroup>
+              </div>
 
-      <div className="mb-1">
-        <Button variant="" className="searchBtn">
-          <FaSearch /> <b>Search</b>
-        </Button>
-      </div>
-      {/* <div className="mb-1">
+              <div className="mb-1">
+                <Button variant="" className="searchBtn">
+                  <FaSearch /> <b>Search</b>
+                </Button>
+              </div>
+              {/* <div className="mb-1">
   <Button variant="" className="searchBtn2"><FaSearch/></Button>
   </div> */}
-    </div>
-  </div>
-</div>
-   : 
-   <div className="pb-3 active" id="search-bar-2">
- <div className="d-flex align-content-stretch mx-auto align-items-center search2">
-   {/* Input1 */}
-   <div
-     className="desti d-flex flex-column px-4 input1 where text-start"
-     onClick={() => setModalShow(true)}
-   >
-     <Form.Label htmlFor="basic-url">Where</Form.Label>
-     <InputGroup className="mb-3">
-       <Form.Control
-         type="text"
-         placeholder="Search destinations"
-         aria-label="Search destinations"
-         aria-describedby="basic-addon2"
-       />
-     </InputGroup>
-   </div>
-   <div className="border-right"></div>
-   {/* Input2 */}
-   <div
-     className="desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"
-     onClick={() => setModal5Show(true)}
-   >
-     <Form.Label htmlFor="basic-url">Check in</Form.Label>
-     <InputGroup className="mb-3">
-       <Form.Control
-         type="text"
-         placeholder="Add dates"
-         aria-label="Add dates"
-         aria-describedby="basic-addon2"
-         value={pickedDates.firstPickedDate?.toString().substring(4, 10)}
-         className="value-style"
-       />
-     </InputGroup>
-   </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="pb-3" id="search-bar-2">
+          <div className="d-flex align-content-stretch mx-auto align-items-center search2">
+            {/* Input1 */}
+            <div
+              className={activeBtn === "div1"? "active desti d-flex flex-column px-4 input1 where text-start" : "desti d-flex flex-column px-4 input1 where text-start"}    
+              onClick={() => {
+                setModalShow(true);
+                setActiveBtn("div1");
+              }}
+            >
+              <Form.Label htmlFor="basic-url">Where</Form.Label>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Search destinations"
+                  aria-label="Search destinations"
+                  aria-describedby="basic-addon2"
+                  value={region}
+                 
+                
+                />
+              </InputGroup>
+            </div>
+            <div className="border-right"></div>
+            {/* Input2 */}
+            <div
+              className={activeBtn === "div2"? "active desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1" : "desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"}    
+              onClick={() => {
+                setModal5Show(true);
+                setActiveBtn("div2");
+              }}          
+            >
+              <Form.Label htmlFor="basic-url">Check in</Form.Label>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Add dates"
+                  aria-label="Add dates"
+                  aria-describedby="basic-addon2"
+                  value={pickedDates.firstPickedDate
+                    ?.toString()
+                    .substring(4, 10)}
+                  className="value-style"
+                 
+                />
+              </InputGroup>
+            </div>
 
-   <div className="border-right"></div>
-   {/* Input3 */}
-   <div
-     className="desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"
-     onClick={() => setModal5Show(true)}
-   >
-     <Form.Label htmlFor="basic-url">Check out</Form.Label>
-     <InputGroup className="mb-3">
-       <Form.Control
-         type="text"
-         placeholder="Add dates"
-         aria-label="Add dates"
-         aria-describedby="basic-addon2"
-         value={pickedDates.secondPickedDate
-           ?.toString()
-           .substring(4, 10)}
-         className="value-style"
-       />
-     </InputGroup>
-   </div>
+            <div className="border-right"></div>
+            {/* Input3 */}
+            <div
+              className={activeBtn === "div3"? "active desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1" : "desti d-flex flex-column justify-content-center align-items-center place-center px-2 input1"}    
+              onClick={() => {
+                setModal5Show(true);
+                setActiveBtn("div3");
+              }} 
+      
+            >
+              <Form.Label htmlFor="basic-url">Check out</Form.Label>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Add dates"
+                  aria-label="Add dates"
+                  aria-describedby="basic-addon2"
+                  value={pickedDates.secondPickedDate
+                    ?.toString()
+                    .substring(4, 10)}
+                  className="value-style"
+                 
+                />
+              </InputGroup>
+            </div>
 
-   <div className="border-right"></div>
-   {/* Input4 */}
-   <div
-     className="desti d-flex flex-row align-items-center px-4 input1 where who"
-     onClick={() => setModal4Show(true)}
-   >
-     <div>
-       <Form.Label htmlFor="basic-url" className="text-start">
-         Who
-       </Form.Label>
-       <InputGroup className="mb-2">
-         <Form.Control
-           type="text"
-           placeholder="Add guests"
-           aria-label="Add guests"
-           aria-describedby="basic-addon2"
-         />
-       </InputGroup>
-     </div>
+            <div className="border-right"></div>
+            {/* Input4 */}
+            <div
+                className={activeBtn === "div4"? "active desti d-flex flex-row align-items-center px-4 input1 where who" : "desti d-flex flex-row align-items-center px-4 input1 where who"}    
+                onClick={() => {
+                  setModal4Show(true);
+                  setActiveBtn("div4");
+                }}
+            >
+              <div>
+                <Form.Label htmlFor="basic-url" className="text-start">
+                  Who
+                </Form.Label>
+                <InputGroup className="mb-2">
+                  <Form.Control
+                    type="text"
+                    placeholder="Add guests"
+                    aria-label="Add guests"
+                    aria-describedby="basic-addon2"
+                    className="value-style"
+                  />
+                </InputGroup>
+              </div>
 
-     <div className="mb-1">
-       <Button variant="" className="searchBtn">
-         <FaSearch /> <b>Search</b>
-       </Button>
-     </div>
-     {/* <div className="mb-1">
+              <div className="mb-1">
+                <Button variant="" className="searchBtn">
+                  <FaSearch /> <b>Search</b>
+                </Button>
+              </div>
+              {/* <div className="mb-1">
  <Button variant="" className="searchBtn2"><FaSearch/></Button>
  </div> */}
-   </div>
- </div>
-</div>
- }
+            </div>
+          </div>
+        </div>
+      )}
 
- 
-    
-     
-    
-    
       {/* Modal1 */}
       <div className="modal1">
         <Modal
@@ -378,7 +437,13 @@ const [showDatePicker, setShowDatePicker] = useState(false);
                     onChange={handleChange}
                   >
                     <div className="mapImage">
-                      <ToggleButton id="tbg-btn-4" value={"flexible"}>
+                      <ToggleButton
+                        id="tbg-btn-4"
+                        value={"flexible"}
+                        onClick={() => {
+                          setRegion("Flexible");
+                        }}
+                      >
                         <Image src={MapImage1} />
                         I'm flexible
                       </ToggleButton>
@@ -388,7 +453,13 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           </Button> */}
                     </div>
                     <div className="mapImage">
-                      <ToggleButton id="tbg-btn-5" value={"Europe"}>
+                      <ToggleButton
+                        id="tbg-btn-5"
+                        value={"Europe"}
+                        onClick={() => {
+                          setRegion("Europe");
+                        }}
+                      >
                         <Image src={MapImage2} />
                         Europe
                       </ToggleButton>
@@ -398,7 +469,13 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           </Button> */}
                     </div>
                     <div className="mapImage">
-                      <ToggleButton id="tbg-btn-6" value={"France"}>
+                      <ToggleButton
+                        id="tbg-btn-6"
+                        value={"France"}
+                        onClick={() => {
+                          setRegion("France");
+                        }}
+                      >
                         <Image src={MapImage3} />
                         France
                       </ToggleButton>
@@ -417,7 +494,13 @@ const [showDatePicker, setShowDatePicker] = useState(false);
                     onChange={handleChange}
                   >
                     <div className="mapImage">
-                      <ToggleButton id="tbg-btn-7" value={"us"}>
+                      <ToggleButton
+                        id="tbg-btn-7"
+                        value={"us"}
+                        onClick={() => {
+                          setRegion("United State");
+                        }}
+                      >
                         <Image src={MapImage4} />
                         United States
                       </ToggleButton>
@@ -427,7 +510,13 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           </Button> */}
                     </div>
                     <div className="mapImage">
-                      <ToggleButton id="tbg-btn-8" value={"uk"}>
+                      <ToggleButton
+                        id="tbg-btn-8"
+                        value={"uk"}
+                        onClick={() => {
+                          setRegion("United Kingdom");
+                        }}
+                      >
                         <Image src={MapImage5} />
                         United Kingdom
                       </ToggleButton>
@@ -437,7 +526,13 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           </Button> */}
                     </div>
                     <div className="mapImage">
-                      <ToggleButton id="tbg-btn-9" value={"sa"}>
+                      <ToggleButton
+                        id="tbg-btn-9"
+                        value={"sa"}
+                        onClick={() => {
+                          setRegion("South America");
+                        }}
+                      >
                         <Image src={MapImage6} />
                         South America
                       </ToggleButton>
@@ -463,15 +558,16 @@ const [showDatePicker, setShowDatePicker] = useState(false);
         >
           <div id="modal3-content">
             <div>
-            {/* <div className="toggle-buttons1 position-absolute">
+              {/* <div className="toggle-buttons1 position-absolute">
                 <ButtonGroup aria-label="Basic example mx-auto">
                   <Button variant="" className="btn-date active">Choose dates</Button>
                   <Button variant="link" className="">I'm flexible</Button>
                 </ButtonGroup>
               </div> */}
-              <DatePicker disablePreviousDays style={{padding:"124px 58px!important"}}/>
-
-             
+              <DatePicker
+                disablePreviousDays
+                style={{ padding: "124px 58px!important" }}
+              />
 
               {/* <div>{pickedDates.firstPickedDate?.toString()}</div>
               <div>{pickedDates.secondPickedDate?.toString()}</div> */}
@@ -491,9 +587,8 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           aria-labelledby="example-custom-modal-styling-title"
         >
           <Container>
-            <Modal.Header></Modal.Header>
             <Modal.Body>
-              <div id="modal3-content">
+              <div id="modal3 modal3-content" className="counter-modal-content">
                 <div className="">
                   <Row className="">
                     <Col className="" lg={6}>
@@ -610,7 +705,7 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           <Container>
             <Modal.Header></Modal.Header>
             <Modal.Body>
-              <div id="modal3-content">
+              <div id="modal3 modal3-content">
                 <div className="">
                   <Row className="">
                     <Col className="" lg={6}>
@@ -759,7 +854,7 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           </Container>
         </Modal>
       </div>
-       {/* Modal5 */}
+      {/* Modal5 */}
       <div className="modal5">
         <Modal
           show={modal5Show}
@@ -767,19 +862,32 @@ const [showDatePicker, setShowDatePicker] = useState(false);
           dialogClassName="modal-90w"
           aria-labelledby="example-custom-modal-styling-title"
         >
-          <div id="modal3-content" className="modal5-content" style={{width:"885px"}}>
+          <div
+            id="modal3-content"
+            className="modal5-content"
+            style={{ width: "885px" }}
+          >
             <div>
-            <div className="toggle-buttons1 position-absolute">
+              <div className="toggle-buttons1 position-absolute">
                 <ButtonGroup aria-label="Basic example mx-auto">
-               
-                  <Button variant="link" className="btn-date active" onClick={()=> setShowDatePicker(false)} >Choose dates</Button>
-                 
-                 
-                  <Button variant="link" className="" onClick={()=> setShowDatePicker(true)}>I'm flexible</Button>
-                  
+                  <Button
+                    variant="link"
+                    className="btn-date active"
+                    onClick={() => setShowDatePicker(false)}
+                  >
+                    Choose dates
+                  </Button>
+
+                  <Button
+                    variant="link"
+                    className=""
+                    onClick={() => setShowDatePicker(true)}
+                  >
+                    I'm flexible
+                  </Button>
                 </ButtonGroup>
               </div>
-                          { showDatePicker ? <FlexibleModal/> : <DatePickerComp/> }
+              {showDatePicker ? <FlexibleModal /> : <DatePickerComp />}
             </div>
           </div>
         </Modal>
