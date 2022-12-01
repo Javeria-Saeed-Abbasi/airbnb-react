@@ -19,24 +19,48 @@ import Month from "./Month";
 
 const FlexibleModal = () => {
     const [checked, setChecked] = useState(false);
-    const [radioValue, setRadioValue] = useState('1');
-  
+    const [radioValue, setRadioValue] = useState('Week');
+
     const radios = [
-      { name: 'Weekend', value: '1' },
-      { name: 'Week', value: '2' },
-      { name: 'Month', value: '3' },
+      { id:'0', 
+      name: 'Weekend', 
+      value: 'Weekend' },
+
+      { id:'1', 
+        name: 'Week',
+       value: 'Week' },
+
+      { id:'2', 
+        name: 'Month',
+       value: 'Month' },
     ];  
+
   return (
     <div>
       <div id="flexible" className="">
         <div className="flexi-content ">
         <div className="d-flex justify-content-center align-items-center">
-            <span className="h5 py-3">Stay for a week</span>
+            <span className="h5 py-3">Stay for a {radioValue}</span>
           </div>
           <div className="flexi-btn d-flex justify-content-center align-items-center">
           <ButtonGroup className="mb-2">
-        {radios.map((radio, idx) => (
-           
+             {radios.map((element, index) => (
+              <label key={index}>
+              <input  type="radio" name="radio"  id={`radio-${index}`} value={element.value}
+               className="card-input-element"
+                          checked={radioValue === element.value}
+                          onChange={(e) => setRadioValue(e.currentTarget.value)}
+                          onClick={() => setRadioValue(element.name)}/>
+    
+                <div className="panel panel-default card-input">
+                  <div className="panel-heading">{element.name}</div>
+                </div>
+               
+            </label>
+             )
+             )}
+        {/* {radios.map((radio, idx) => (
+        
           <ToggleButton
             key={idx}
             id={`radio-${idx}`}
@@ -52,8 +76,32 @@ const FlexibleModal = () => {
             {radio.name}
 
           </ToggleButton>
-        ))}
-   
+        ))} */}
+   {/* <Button>
+                  <label>
+          <input type="radio" name="product" class="card-input-element" />
+
+            <div class="panel panel-default card-input">
+              <div class="panel-heading">Product A</div>
+              <div class="panel-body">
+                Product specific content
+              </div>
+            </div>
+
+        </label>
+                  </Button>
+                  <Button>
+                  <label>
+          <input type="radio" name="product" class="card-input-element" />
+
+            <div class="panel panel-default card-input">
+              <div class="panel-heading">Product C</div>
+              <div class="panel-body">
+                Product specific content
+              </div>
+            </div>
+        </label>
+                  </Button> */}
       </ButtonGroup>
             {/* <ButtonGroup
               aria-label="Basic example mx-auto"

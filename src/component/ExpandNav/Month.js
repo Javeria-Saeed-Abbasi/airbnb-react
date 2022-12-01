@@ -12,17 +12,9 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import Calendaricon from "../../component/assets/images/calender-icon.jpg";
+import Calendaricon2 from "../../component/assets/images/calender-icon2.jpg";
 
-const cardStyle = {
-  width: "5rem",
-  height: "5rem",
-  background: "red",
-  margin: "1rem"
-};
 
-const cardSelect = {
-  boxShadow: "2px 4px 30px 0px rgba(0, 0, 0, 0.75)"
-};
 
 const Month = () => {
   // const dateToFormat = '2022-11-28T12:59-0500';
@@ -30,86 +22,97 @@ const Month = () => {
   const [check, setcheck] = useState("");
   const [checked, setChecked] = useState(false);
   const [radioValue, setRadioValue] = useState("1");
+  const [calIcon, setCalIcon] = useState ('');
 
-  const radios = [
-    { name: "Weekend", value: "1" },
-    { name: "Week", value: "2" },
-    { name: "Month", value: "3" },
+
+  const months = [
+    {
+      id: 0,
+      name: "December",
+      year: "2022",
+      value: "December",
+    },
+    {
+      id: 1,
+      name: "January",
+      year: "2023",
+      value: "January",
+    },
+    {
+      id: 2,
+      name: "Feburary",
+      year: "2023",
+      value: "Feburary",
+    },
+    {
+      id: 3,
+      name: "March",
+      year: "2023",
+      value: "March",
+    },
+    {
+      id: 4,
+      name: "April",
+      year: "2023",
+      value: "April",
+    },
+    {
+      id: 5,
+      name: "May",
+      year: "2023",
+      value: "May",
+    },
+    {
+      id: 6,
+      name: "June",
+      year: "2023",
+      value: "June",
+    },
+    {
+      id: 7,
+      name: "July",
+      year: "2023",
+      value: "July",
+    },
+    {
+      id: 8,
+      name: "August",
+      year: "2023",
+      value: "August",
+    },
+    {
+      id: 9,
+      name: "September",
+      year: "2023",
+      value: "September",
+    },
+    {
+      id: 10,
+      name: "October",
+      year: "2023",
+      value: "October",
+    },
+    {
+      id: 11,
+      name: "November",
+      year: "2023",
+      value: "November",
+    },
+    {
+      id: 12,
+      name: "December",
+      year: "2023",
+      value: "December",
+    },
   ];
-const months = [
-  {
-    id:0,
-    name:"December",
-    year:"2022"
-  },
-  {
-    id:1,
-    name:"January",
-    year:"2023"
-  },
-  {
-    id:2,
-    name:"Feburary",
-    year:"2023"
-  },
-  {
-    id:3,
-    name:"March",
-    year:"2023"
-  },
-  {
-    id:4,
-    name:"April",
-    year:"2023"
-  },
-  {
-    id:5,
-    name:"May",
-    year:"2023"
-  },
-  {
-    id:6,
-    name:"June",
-    year:"2023"
-  },
-  {
-    id:7,
-    name:"July",
-    year:"2023"
-  },
-  {
-    id:8,
-    name:"August",
-    year:"2023"
-  },
-  {
-    id:9,
-    name:"September",
-    year:"2023"
-  },
-  {
-    id:10,
-    name:"October",
-    year:"2023"
-  },
-  {
-    id:11,
-    name:"November",
-    year:"2023"
-  },
-  {
-    id:12,
-    name:"December",
-    year:"2023"
-  },
-]
 
   return (
     <div>
-      <div className="d-flex justify-content-center align-items-center pt-3">
-        <span className="h6">Go anytime</span>
-      </div>
+ 
       <div className="monthCard">
+      <div className="d-flex justify-content-center align-items-center pt-3">
+        <span className="h-6">Go anytime</span>
+      </div>
         <Swiper
           slidesPerView={5}
           spaceBetween={10}
@@ -134,33 +137,60 @@ const months = [
           modules={[Navigation]}
           className="mySwiper"
         >
-         {months.map((element, index) =>
-                <SwiperSlide key={index}>
-                 <label>
-                <InputGroup
-                  type="radio"
-                  name="test"
-                  id="test"
-                  value="business"
-                  className="monthly-cal"
-                />
-
-                <div
-                  className="slides"
-                  style={{ width: "120px", height: "100px" }}
-                >
-                  <div className="slide-content">
-                    <div className="cal-icon text-white">
-                      <Image src={Calendaricon} alt="calendar-icon" />
+            
+      
+           
+              <div className="months-data flexi-btn d-flex justify-content-center align-items-center">
+                <ButtonGroup className="">
+                {months.map((element, index) => (
+                <SwiperSlide   key={index}>
+                  <div className="card-input-element1">
+                
+                  <label>
+                    <input
+                   
+                      type="checkbox"
+                      name="months"
+                      id={`custom-checkbox-${index}`}
+                      value={element.value}
+                      className="monthly-cal card-input-element"
+                      checked={checked[index]}
+                      onChange={(e) =>{setChecked(e.currentTarget.checked); }}
+                      onClick={() => {setRadioValue(element.name); 
+                        if (calIcon.includes(index)) {
+                      const temp = calIcon.filter((element)=>
+                        element!== index
+                      )
+                          setCalIcon([...temp])
+                        }
+                        else{
+                          setCalIcon([...calIcon,index])}}
+                        }
+                       
+                    />
+                    <div
+                      className="slides card-input1"
+                    
+                    >
+                      <div className="slide-content panel panel-default">
+                        <div className="cal-icon text-white">
+                        {calIcon.includes(index)? <Image src={Calendaricon2} alt="calendar-icon" /> : <Image src={Calendaricon} alt="calendar-icon" /> }
+                          {/* <Image src={Calendaricon} alt="calendar-icon" />
+                          <Image src={Calendaricon2} alt="calendar-icon" /> */}
+                        </div>
+                        <p className="text-dark month">{element.name}</p>
+                        <p className="text-dark dates">{element.year}</p>
+                      </div>
                     </div>
-                    <p className="text-dark month">{element.name}</p>
-                    <p className="text-dark dates">{element.year}</p>
-                  </div>
-                </div>
-              </label>
-                </SwiperSlide>
-                )}
-             
+                  </label>
+          
+                    </div>
+                    </SwiperSlide>
+                      ))}
+                </ButtonGroup>
+              </div>
+           
+        
         </Swiper>
       </div>
     </div>

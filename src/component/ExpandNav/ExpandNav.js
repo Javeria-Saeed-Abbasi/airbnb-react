@@ -1,6 +1,7 @@
 import {
   Button,
   ButtonGroup,
+  CloseButton,
   Col,
   Form,
   Image,
@@ -13,11 +14,9 @@ import {
 } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link } from "react-router-dom";
-import { FaSearch, FaUserCircle } from "react-icons/fa";
+import { FaCross, FaSearch, FaUserCircle } from "react-icons/fa";
 import { FaGlobe } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Modal from "react-bootstrap/Modal";
@@ -28,7 +27,7 @@ import MapImage4 from "../../component/assets/images/mapImg4.webp";
 import MapImage5 from "../../component/assets/images/mapImg5.webp";
 import MapImage6 from "../../component/assets/images/mapImg6.webp";
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
-
+import { IoCloseSharp } from "react-icons/io5";
 import {
   DatePicker,
   useDatePickGetter,
@@ -37,7 +36,11 @@ import {
 import "./ExpandNavStyles.css";
 import DatePickerComp from "./DatePicker";
 import FlexibleModal from "./FlexibleModal";
-import $ from "jquery";
+import axios from "axios";
+
+
+
+
 const Navbar2 = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [modalShow, setModalShow] = useState(true);
@@ -55,7 +58,14 @@ const Navbar2 = () => {
   const resetFunc = useDatePickReset();
   const [counter, setCounter] = useState(0);
   const [dateValue, setDateValue] = useState("");
-  
+  const [activeTab, setActiveTab] = useState("tab1");
+
+useEffect(() => {
+ getLocation();
+}, [])
+
+
+
   //increase counter
   const increase = () => {
     setCounter(counter + 1);
@@ -89,10 +99,52 @@ const Navbar2 = () => {
     console.log(event.target.id);
   };
 
-  const  handleActiveBtn = (e) => {
-    setActiveBtn(e.target.id);
-    console.log(e.target.id);
+  // const  handleActiveBtn = (e) => {
+  //   setActiveBtn(e.target.id);
+  //   console.log(e.target.id);
+  // };
+
+const getLocation = () =>{
+
+  const options = {
+    method: 'GET',
+    url: 'https://airbnb13.p.rapidapi.com/search-location',
+      params: {
+        location: 'Paris',
+        checkin: '2022-12-10',
+        checkout: '2022-12-20',
+        adults: '3',
+        children: '0',
+        infants: '0',
+        page: '1'
+      },
+    headers: {
+      Accept: "application/json",
+      'X-RapidAPI-Key': '97a2369ee1msh0bdb988aa9cec57p10b049jsnca3a82146c45',
+      'X-RapidAPI-Host': 'airbnb13.p.rapidapi.com'
+    }
   };
+  
+  axios.request(options).then(function (response) {
+    console.log(response.data);
+  }).catch(function (error) {
+    console.error(error);
+  });
+}
+const [radioValue, setRadioValue] = useState("Week");
+
+// const radios = [
+//   { id: "0", name: "Exact dates", value: "Exact dates" },
+
+//   { id: "1", name: "1 day", value: "1 day" },
+
+//   { id: "2", name: "2 day", value: "2 day" },
+
+//   { id: "3", name: "3 day", value: "3 day" },
+
+//   { id: "7", name: "7 day", value: "7 day" },
+// ];
+
   return (
     <div className="expand-nav">
       <Navbar
@@ -219,7 +271,11 @@ const Navbar2 = () => {
                   aria-label="Search destinations"
                   aria-describedby="basic-addon2"
                   value={region}
+                  onChange={(text) => setRegion(text)}
                 />
+                   <div className="close-btn">
+                <CloseButton><IoCloseSharp className="close-icon"/></CloseButton>
+                </div>
               </InputGroup>
             </div>
             <div className="border-right"></div>
@@ -237,6 +293,7 @@ const Navbar2 = () => {
                   placeholder="Add dates"
                   aria-label="Add dates"
                   aria-describedby="basic-addon2"
+                  readOnly={true}
                   name=""
                   value={dateValue}
                   onChange={handleChangeDate}
@@ -247,6 +304,9 @@ const Navbar2 = () => {
                   // }
                   className="value-style text-start"
                 />
+                   <div className="close-btn">
+                <CloseButton><IoCloseSharp className="close-icon"/></CloseButton>
+                </div>
               </InputGroup>
             </div>
             {/* <div
@@ -285,6 +345,9 @@ const Navbar2 = () => {
                     aria-label="Add guests"
                     aria-describedby="basic-addon2"
                   />
+                     <div className="close-btn">
+                <CloseButton><IoCloseSharp className="close-icon"/></CloseButton>
+                </div>
                 </InputGroup>
               </div>
 
@@ -318,9 +381,12 @@ const Navbar2 = () => {
                   aria-label="Search destinations"
                   aria-describedby="basic-addon2"
                   value={region}
-                 
+                  onChange={(e) => setRegion(e.target.value)}
                 
                 />
+                  <div className="close-btn">
+                <CloseButton><IoCloseSharp className="close-icon"/></CloseButton>
+                </div>
               </InputGroup>
             </div>
             <div className="border-right"></div>
@@ -345,6 +411,9 @@ const Navbar2 = () => {
                   className="value-style"
                  
                 />
+                <div className="close-btn">
+                <CloseButton><IoCloseSharp className="close-icon"/></CloseButton>
+                </div>
               </InputGroup>
             </div>
 
@@ -371,6 +440,9 @@ const Navbar2 = () => {
                   className="value-style"
                  
                 />
+                  <div className="close-btn">
+                <CloseButton><IoCloseSharp className="close-icon"/></CloseButton>
+                </div>
               </InputGroup>
             </div>
 
@@ -395,6 +467,9 @@ const Navbar2 = () => {
                     aria-describedby="basic-addon2"
                     className="value-style"
                   />
+                     <div className="close-btn">
+                <CloseButton><IoCloseSharp className="close-icon"/></CloseButton>
+                </div>
                 </InputGroup>
               </div>
 
@@ -568,6 +643,8 @@ const Navbar2 = () => {
                 disablePreviousDays
                 style={{ padding: "124px 58px!important" }}
               />
+                    
+     
 
               {/* <div>{pickedDates.firstPickedDate?.toString()}</div>
               <div>{pickedDates.secondPickedDate?.toString()}</div> */}
@@ -872,22 +949,28 @@ const Navbar2 = () => {
                 <ButtonGroup aria-label="Basic example mx-auto">
                   <Button
                     variant="link"
-                    className="btn-date active"
-                    onClick={() => setShowDatePicker(false)}
-                  >
+                    className={activeTab === "tab1"? "active btn-date" : "btn-date"}    
+                    onClick={() => {
+                      setShowDatePicker(false);
+                      setActiveTab("tab1");
+                    }}>
                     Choose dates
                   </Button>
-
                   <Button
                     variant="link"
-                    className=""
-                    onClick={() => setShowDatePicker(true)}
+                    className={activeTab === "tab2"? "active btn-date" : "btn-date"}    
+                    onClick={() => {
+                      setShowDatePicker(true);
+                      setActiveTab("tab2");
+                    }}
+                    
                   >
                     I'm flexible
                   </Button>
                 </ButtonGroup>
               </div>
               {showDatePicker ? <FlexibleModal /> : <DatePickerComp />}
+
             </div>
           </div>
         </Modal>
